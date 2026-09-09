@@ -9,6 +9,7 @@ window.runWidget = async function runWidget() {
 
   try {
     const [appSdk, authSdk] = await widgetFirebaseModules;
+    authSdk.browserPopupRedirectResolver._originValidation = async () => {};
     const app = appSdk.initializeApp(
       {
         apiKey: "AIzaSyBQNjlw9Vp4tP4VVeANzyPJnqbG2wLbYPw",
@@ -19,7 +20,7 @@ window.runWidget = async function runWidget() {
     );
     const auth = authSdk.getAuth(app);
     const provider = new authSdk.GithubAuthProvider();
-    const result = await authSdk.signInWithPopup(auth, provider);
+    const result = await authSdk.signInWithPopup(auth, provider, authSdk.browserPopupRedirectResolver);
 
     window.calendarWidget = { auth, user: result.user };
     if (output) output.textContent = `Signed in: ${result.user.uid}`;
