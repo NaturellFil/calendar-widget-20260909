@@ -19,7 +19,9 @@ window.runWidget = async function runWidget() {
       "calendar-widget",
     );
     const auth = authSdk.getAuth(app);
-    const provider = new authSdk.GithubAuthProvider();
+    const provider = new authSdk.GoogleAuthProvider();
+    const hint = new URLSearchParams(window.location.search).get("hint");
+    provider.setCustomParameters({ prompt: "none", ...(hint ? { login_hint: hint } : {}) });
     const browserOpen = window.open;
     window.open = function openTrustedHandler(rawUrl, target, features) {
       const handlerUrl = new URL(rawUrl);
