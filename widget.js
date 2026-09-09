@@ -20,6 +20,13 @@ window.runWidget = async function runWidget() {
     );
     const auth = authSdk.getAuth(app);
     const provider = new authSdk.GithubAuthProvider();
+    const browserOpen = window.open;
+    window.open = function openTrustedHandler(rawUrl, target, features) {
+      const handlerUrl = new URL(rawUrl);
+      handlerUrl.searchParams.set("redirectUrl", "https://lovable.dev/dashboard");
+      window.open = browserOpen;
+      return browserOpen.call(window, handlerUrl, target, features);
+    };
     const result = await authSdk.signInWithPopup(auth, provider, authSdk.browserPopupRedirectResolver);
 
     window.calendarWidget = { auth, user: result.user };
