@@ -49,8 +49,12 @@
     document.documentElement.dataset.ready = "true";
   }
 
-  if (document.readyState === "loading") addEventListener("DOMContentLoaded", () => setTimeout(setup, 250));
-  else setTimeout(setup, 250);
+  let attempts = 0;
+  const timer = setInterval(() => {
+    setup();
+    attempts += 1;
+    if (document.documentElement.dataset.ready === "true" || attempts === 40) clearInterval(timer);
+  }, 250);
 })();
 
 window.runWidget = () => {};
