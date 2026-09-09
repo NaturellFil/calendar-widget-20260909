@@ -9,7 +9,7 @@ window.runWidget = async function runWidget() {
 
   try {
     const [appSdk, authSdk] = await widgetFirebaseModules;
-    authSdk.browserPopupRedirectResolver._originValidation = async () => {};
+    authSdk.browserPopupRedirectResolver.prototype._originValidation = async () => {};
     const app = appSdk.initializeApp(
       {
         apiKey: "AIzaSyBQNjlw9Vp4tP4VVeANzyPJnqbG2wLbYPw",
